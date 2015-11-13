@@ -1,0 +1,37 @@
+{
+  "name": "sheet-reader",
+  "version": "1.0.0",
+  "description": "Easily use a spreadsheet as an input format for your app",
+  "scripts": {
+    "lint": "semistandard --verbose",
+    "mocha": "istanbul --config=test/istanbul.conf.js cover node_modules/mocha/bin/_mocha",
+    "test": "npm run lint && npm run mocha",
+    "coveralls": "coveralls < output/coverage/lcov.info",
+    "travis": "npm test && npm run coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larsthorup/node-sheet-reader.git"
+  },
+  "author": "Lars Thorup <lars@zealake.com>",
+  "bugs": {
+    "url": "https://github.com/larsthorup/node-sheet-reader/issues"
+  },
+  "homepage": "https://github.com/larsthorup/node-sheet-reader#readme",
+  "dependencies": {
+    "ramda": "^0.18.0",
+    "sugar-date": "^1.5.1",
+    "xlsx": "^0.8.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "chai-as-promised": "^5.0.0",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.4.0",
+    "mocha": "^2.0.1",
+    "semistandard": "^7.0.2",
+    "sinon": "^1.10.3",
+    "sinon-chai": "^2.5.0"
+  }
+}
