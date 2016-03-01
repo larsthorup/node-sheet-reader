@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "semistandard --verbose",
     "mocha": "istanbul --config=test/istanbul.conf.js cover node_modules/mocha/bin/_mocha",
-    "test": "npm run lint && npm run mocha",
+    "doc": "mocha --reporter markdown > docs/api.md",
+    "test": "npm run lint && npm run mocha && npm run doc",
     "coveralls": "coveralls < output/coverage/lcov.info",
     "travis": "npm test && npm run coveralls"
   },
