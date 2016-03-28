@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/larsthorup/node-sheet-reader#readme",
   "dependencies": {
-    "ramda": "^0.19.0",
+    "ramda": "^0.20.0",
     "sugar-date": "^1.5.1",
     "xlsx": "^0.8.0"
   },
