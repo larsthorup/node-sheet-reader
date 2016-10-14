@@ -17,7 +17,7 @@ this.data[source].customer['irma'].address.value.should.equal('Glostrup');
 should support date values.
 
 ```js
-this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23));
+this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23, 17, 43));
 ```
 
 should support relative date values.
@@ -92,7 +92,7 @@ this.data[source].customer['irma'].address.value.should.equal('Glostrup');
 should support date values.
 
 ```js
-this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23));
+this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23, 17, 43));
 ```
 
 should support relative date values.

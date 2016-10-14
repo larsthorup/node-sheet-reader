@@ -18,7 +18,7 @@ describe('sheet-reader', function () {
       object: sheetReader.build({
         customer: [
           ['id', 'name', 'owner:customer:ref', 'address', 'created:date'],
-          ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23'],
+          ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23T17:43:00Z'],
           ['coop', 'COOP', '', 'Albertslund', '2 days ago'],
           ['fakta', 'Fakta', 'coop', '', '']
         ],
@@ -46,7 +46,7 @@ describe('sheet-reader', function () {
       });
 
       it('should support date values', function () {
-        this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23));
+        this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23, 17, 43));
       });
 
       it('should support relative date values', function () {

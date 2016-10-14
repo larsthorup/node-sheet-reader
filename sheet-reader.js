@@ -110,7 +110,7 @@ function makeRow (sheet, rowId, columnHeaders) {
 
 function parseMetadata (colHeader, cellValue) {
   const colHeaderParts = colHeader.split(':');
-  const valueParts = cellValue !== undefined ? cellValue.split(':') : [];
+  const valueParts = cellValue !== undefined ? (cellValue.startsWith('expect:') ? ['expect', cellValue.split(':')[1]] : [cellValue]) : [];
   const name = colHeaderParts.length > 1 ? colHeaderParts[0] : colHeader;
   const type = colHeaderParts.length > 1 ? colHeaderParts[colHeaderParts.length - 1] : 'string';
   const propName = valueParts.length > 1 ? valueParts[0] : 'value';
