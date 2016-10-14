@@ -63,12 +63,13 @@ function buildSheets (matrices, columnHeaders) {
 }
 
 function buildSheet (matrix, columnHeaders) {
-  delete matrix[0];
-  return R.fromPairs(matrix.map((row) => {
+  const rows = matrix.slice(1);
+  const pairs = rows.map((row) => {
     const rowValue = buildRow(row, columnHeaders);
     const rowKey = rowValue.id;
     return [rowKey, rowValue];
-  }));
+  });
+  return R.fromPairs(pairs);
 }
 
 function buildRow (cellArray, columnHeaders) {
@@ -140,7 +141,7 @@ function convertValue (metadata) {
       case 'num':
         return Number(metadata.value);
       case 'date':
-        return sugar.Date.utc.create(metadata.value).getTime();
+        return sugar.Date.create(metadata.value, {fromUTC: true, setUTC: true}).getTime();
       case 'ref':
         const rowId = metadata.value;
         return rowId;
