@@ -7,15 +7,24 @@ const XLSX = require('xlsx');
 function readFile (path) {
   const workbook = XLSX.readFile(path);
   const sheets = parseWorkbook(workbook);
-  const columnHeaders = extractColumnHeaders(sheets);
+  const columnHeaders = parseWorkbookColumnHeaders(workbook);
   return parse(sheets, columnHeaders);
 }
 
 function parseWorkbook (workbook) {
   return R.fromPairs(workbook.SheetNames.map(sheetKey => {
-    const workSheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetKey]);
+    const workbookSheet = workbook.Sheets[sheetKey];
+    const workSheet = XLSX.utils.sheet_to_json(workbookSheet);
     const sheetValue = parseWorkSheet(workSheet);
     return [sheetKey, sheetValue];
+  }));
+}
+
+function parseWorkbookColumnHeaders (workbook) {
+  return R.fromPairs(workbook.SheetNames.map(sheetKey => {
+    const workbookSheet = workbook.Sheets[sheetKey];
+    const columnHeaders = XLSX.utils.sheet_to_csv(workbookSheet).split('\n')[0].split(',');
+    return [sheetKey, columnHeaders];
   }));
 }
 
@@ -24,17 +33,6 @@ function parseWorkSheet (workSheet) {
     const rowKey = row.id;
     const rowValue = row;
     return [rowKey, rowValue];
-  }));
-}
-
-function extractColumnHeaders (sheets) {
-  const sheetKeys = Object.keys(sheets);
-  return R.fromPairs(sheetKeys.map(sheetKey => {
-    const sheet = sheets[sheetKey];
-    const rowId = Object.keys(sheet)[0];
-    const columnHeadersKey = sheetKey;
-    const columnHeadersValue = Object.keys(sheet[rowId]);
-    return [columnHeadersKey, columnHeadersValue];
   }));
 }
 
