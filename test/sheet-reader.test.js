@@ -27,8 +27,9 @@ describe('sheet-reader', function () {
           ['apple', 'Apple', 'fruit']
         ],
         orderItem: [
-          ['id', 'customer:ref', 'product:ref', 'quantity:num', 'price:num'],
-          ['irma-apples', 'irma', 'apple', '200', 'expect:12.75']
+          ['customer:ref', 'product:ref', 'quantity:num', 'price:num'],
+          ['irma', 'apple', '200', 'expect:12.75'],
+          ['coop', 'apple', '100']
         ]
       })
     };
@@ -41,6 +42,12 @@ describe('sheet-reader', function () {
 
   ['file', 'object'].forEach(source => {
     describe('when created from ' + source, function () {
+      beforeEach(function () {
+        const orderItemIds = Object.keys(this.data[source].orderItem);
+        this.irmaApples = orderItemIds[0];
+        this.coopApples = orderItemIds[1];
+      });
+
       it('should support string values', function () {
         this.data[source].customer['irma'].address.value.should.equal('Glostrup');
       });
@@ -71,17 +78,17 @@ describe('sheet-reader', function () {
       });
 
       it('should support references to other sheets', function () {
-        this.data[source].orderItem['irma-apples'].customer.value.should.equal('irma');
-        this.data[source].orderItem['irma-apples'].customer.reference(this.data[source]).address.value.should.equal('Glostrup');
+        this.data[source].orderItem[this.irmaApples].customer.value.should.equal('irma');
+        this.data[source].orderItem[this.irmaApples].customer.reference(this.data[source]).address.value.should.equal('Glostrup');
       });
 
       it('should support numeric values', function () {
-        this.data[source].orderItem['irma-apples'].quantity.value.should.equal(200);
+        this.data[source].orderItem[this.coopApples].quantity.value.should.equal(100);
       });
 
       it('should support expected values', function () {
-        should.not.exist(this.data[source].orderItem['irma-apples'].price.value);
-        this.data[source].orderItem['irma-apples'].price.expect.should.equal(12.75);
+        should.not.exist(this.data[source].orderItem[this.irmaApples].price.value);
+        this.data[source].orderItem[this.irmaApples].price.expect.should.equal(12.75);
       });
 
       it('should not store data by row number', function () {

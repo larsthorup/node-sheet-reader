@@ -29,8 +29,8 @@ function parseWorkbookColumnHeaders (workbook) {
 }
 
 function parseWorkSheet (workSheet) {
-  return R.fromPairs(workSheet.map(row => {
-    const rowKey = row.id;
+  return R.fromPairs(workSheet.map((row, rowNum) => {
+    const rowKey = R.defaultTo(rowNum)(row.id);
     const rowValue = row;
     return [rowKey, rowValue];
   }));
@@ -62,9 +62,9 @@ function buildSheets (matrices, columnHeaders) {
 
 function buildSheet (matrix, columnHeaders) {
   const rows = matrix.slice(1);
-  const pairs = rows.map((row) => {
+  const pairs = rows.map((row, rowNum) => {
     const rowValue = buildRow(row, columnHeaders);
-    const rowKey = rowValue.id;
+    const rowKey = R.defaultTo(rowNum)(rowValue.id);
     return [rowKey, rowValue];
   });
   return R.fromPairs(pairs);

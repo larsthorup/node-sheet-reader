@@ -52,21 +52,21 @@ this.data[source].product['apple'].type.value.should.equal('fruit');
 should support references to other sheets.
 
 ```js
-this.data[source].orderItem['irma-apples'].customer.value.should.equal('irma');
-this.data[source].orderItem['irma-apples'].customer.reference(this.data[source]).address.value.should.equal('Glostrup');
+this.data[source].orderItem[this.irmaApples].customer.value.should.equal('irma');
+this.data[source].orderItem[this.irmaApples].customer.reference(this.data[source]).address.value.should.equal('Glostrup');
 ```
 
 should support numeric values.
 
 ```js
-this.data[source].orderItem['irma-apples'].quantity.value.should.equal(200);
+this.data[source].orderItem[this.coopApples].quantity.value.should.equal(100);
 ```
 
 should support expected values.
 
 ```js
-should.not.exist(this.data[source].orderItem['irma-apples'].price.value);
-this.data[source].orderItem['irma-apples'].price.expect.should.equal(12.75);
+should.not.exist(this.data[source].orderItem[this.irmaApples].price.value);
+this.data[source].orderItem[this.irmaApples].price.expect.should.equal(12.75);
 ```
 
 should not store data by row number.
@@ -127,21 +127,21 @@ this.data[source].product['apple'].type.value.should.equal('fruit');
 should support references to other sheets.
 
 ```js
-this.data[source].orderItem['irma-apples'].customer.value.should.equal('irma');
-this.data[source].orderItem['irma-apples'].customer.reference(this.data[source]).address.value.should.equal('Glostrup');
+this.data[source].orderItem[this.irmaApples].customer.value.should.equal('irma');
+this.data[source].orderItem[this.irmaApples].customer.reference(this.data[source]).address.value.should.equal('Glostrup');
 ```
 
 should support numeric values.
 
 ```js
-this.data[source].orderItem['irma-apples'].quantity.value.should.equal(200);
+this.data[source].orderItem[this.coopApples].quantity.value.should.equal(100);
 ```
 
 should support expected values.
 
 ```js
-should.not.exist(this.data[source].orderItem['irma-apples'].price.value);
-this.data[source].orderItem['irma-apples'].price.expect.should.equal(12.75);
+should.not.exist(this.data[source].orderItem[this.irmaApples].price.value);
+this.data[source].orderItem[this.irmaApples].price.expect.should.equal(12.75);
 ```
 
 should not store data by row number.
