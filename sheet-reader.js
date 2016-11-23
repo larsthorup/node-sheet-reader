@@ -8,13 +8,26 @@ function readFile (path) {
   const workbook = XLSX.readFile(path);
   const sheets = parseWorkbook(workbook);
   const columnHeaders = parseWorkbookColumnHeaders(workbook);
-  return parse(sheets, columnHeaders);
+  var result = parse(sheets, columnHeaders);
+  return result;
+}
+
+function parseRange (range) {
+  return {
+    end: {
+      row: parseInt(/\D+(\d+)/.exec(range.split(':')[1])[1])
+    }
+  };
 }
 
 function parseWorkbook (workbook) {
   return R.fromPairs(workbook.SheetNames.map(sheetKey => {
     const workbookSheet = workbook.Sheets[sheetKey];
+    const workbookSheetRangeString = workbookSheet['!ref'];
+    const workbookSheetRange = parseRange(workbookSheetRangeString);
     const workSheet = XLSX.utils.sheet_to_json(workbookSheet);
+    const tolerance = 10;
+    if (workbookSheetRange.end.row > workSheet.length + tolerance) throw new Error(`Sheet "${sheetKey}" has a much larger range "${workbookSheetRangeString}" than the row count of "${workSheet.length}"`);
     const sheetValue = parseWorkSheet(workSheet);
     return [sheetKey, sheetValue];
   }));

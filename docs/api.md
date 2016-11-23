@@ -2,6 +2,8 @@
    - [sheet-reader](#sheet-reader)
      - [when created from file](#sheet-reader-when-created-from-file)
      - [when created from object](#sheet-reader-when-created-from-object)
+     - [error handling](#sheet-reader-error-handling)
+       - [outrageous range in sheet](#sheet-reader-error-handling-outrageous-range-in-sheet)
 <a name=""></a>
  
 <a name="sheet-reader"></a>
@@ -154,5 +156,16 @@ should not store data by raw column name.
 
 ```js
 should.not.exist(this.data[source].customer['irma']['owner:customer:ref']);
+```
+
+<a name="sheet-reader-error-handling"></a>
+## error handling
+<a name="sheet-reader-error-handling-outrageous-range-in-sheet"></a>
+### outrageous range in sheet
+should throw an error.
+
+```js
+this.timeout(30000);
+(() => sheetReader.readFile('test/data/bad.xlsx')).should.throw('Sheet "content" has a much larger range "A1:L1048576" than the row count of "2"');
 ```
 

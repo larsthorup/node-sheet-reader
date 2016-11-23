@@ -100,4 +100,13 @@ describe('sheet-reader', function () {
       });
     });
   });
+
+  describe('error handling', function () {
+    describe('outrageous range in sheet', function () {
+      it('should throw an error', function () {
+        this.timeout(30000); // Note: the xlsx module takes a long time to parse this small file
+        (() => sheetReader.readFile('test/data/bad.xlsx')).should.throw('Sheet "content" has a much larger range "A1:L1048576" than the row count of "2"');
+      });
+    });
+  });
 });
