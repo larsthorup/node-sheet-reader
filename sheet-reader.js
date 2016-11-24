@@ -46,7 +46,7 @@ function parseWorkSheet (workSheet) {
     const rowKey = R.defaultTo(rowNum)(row.id);
     const rowValue = row;
     return [rowKey, rowValue];
-  }));
+  }).filter(([rowKey]) => rowKey !== '#'));
 }
 
 function build (matrices) {

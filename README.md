@@ -14,13 +14,15 @@ For applications with complicated configuration data,
 it may make sense to keep the configuration data in a spreadsheet
 format to postpone the task of creating an administration UI. 
 Admin users can then use any spreadsheet tool to edit the 
-configuration data in a somewhat userfriendly manner.
+configuration data in a somewhat user-friendly manner.
 
 This library supports reading in data from a spreadsheet. 
 The data is represented as 
 a hash of sheets containing 
 a hash of rows containing 
 a hash of columns.
+
+Empty rows are ignored, as are comment rows which are marked with a single `#` character in the first cell.
 
 The library assumes a database like structure of the sheets in a spreadsheet file.
 Each sheet must have one row at the top with column headers. 

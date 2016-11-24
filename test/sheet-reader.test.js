@@ -77,6 +77,14 @@ describe('sheet-reader', function () {
         this.data[source].product['apple'].type.value.should.equal('fruit');
       });
 
+      it('should ignore empty rows', function () {
+        Object.keys(this.data[source].product).should.deep.equal(['apple']);
+      });
+
+      it('should ignore comment rows', function () {
+        Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma']);
+      });
+
       it('should support references to other sheets', function () {
         this.data[source].orderItem[this.irmaApples].customer.value.should.equal('irma');
         this.data[source].orderItem[this.irmaApples].customer.reference(this.data[source]).address.value.should.equal('Glostrup');

@@ -1,6 +1,6 @@
 {
   "name": "sheet-reader",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Easily use a spreadsheet as an input format for your app",
   "scripts": {
     "lint": "semistandard --verbose",

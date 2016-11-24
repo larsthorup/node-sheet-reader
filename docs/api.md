@@ -51,6 +51,18 @@ should support multiple sheets.
 this.data[source].product['apple'].type.value.should.equal('fruit');
 ```
 
+should ignore empty rows.
+
+```js
+Object.keys(this.data[source].product).should.deep.equal(['apple']);
+```
+
+should ignore comment rows.
+
+```js
+Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma']);
+```
+
 should support references to other sheets.
 
 ```js
@@ -126,6 +138,18 @@ should support multiple sheets.
 this.data[source].product['apple'].type.value.should.equal('fruit');
 ```
 
+should ignore empty rows.
+
+```js
+Object.keys(this.data[source].product).should.deep.equal(['apple']);
+```
+
+should ignore comment rows.
+
+```js
+Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma']);
+```
+
 should support references to other sheets.
 
 ```js
@@ -165,7 +189,7 @@ should.not.exist(this.data[source].customer['irma']['owner:customer:ref']);
 should throw an error.
 
 ```js
-this.timeout(30000);
+this.timeout(30000); // Note: the xlsx module takes a long time to parse this small file
 (() => sheetReader.readFile('test/data/bad.xlsx')).should.throw('Sheet "content" has a much larger range "A1:L1048576" than the row count of "2"');
 ```
 
