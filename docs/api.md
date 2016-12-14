@@ -95,6 +95,16 @@ should not store data by raw column name.
 should.not.exist(this.data[source].customer['irma']['owner:customer:ref']);
 ```
 
+should exclude metadata, useful for diffing.
+
+```js
+this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
+  customer: { value: 'irma' },
+  product: { value: 'apple' },
+  quantity: { value: '200' },
+  price: { expect: '12.75' }});
+```
+
 <a name="sheet-reader-when-created-from-object"></a>
 ## when created from object
 should support string values.
@@ -180,6 +190,16 @@ should not store data by raw column name.
 
 ```js
 should.not.exist(this.data[source].customer['irma']['owner:customer:ref']);
+```
+
+should exclude metadata, useful for diffing.
+
+```js
+this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
+  customer: { value: 'irma' },
+  product: { value: 'apple' },
+  quantity: { value: '200' },
+  price: { expect: '12.75' }});
 ```
 
 <a name="sheet-reader-error-handling"></a>

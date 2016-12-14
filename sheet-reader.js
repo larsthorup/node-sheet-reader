@@ -4,11 +4,11 @@ const R = require('ramda');
 const sugar = require('sugar-date');
 const XLSX = require('xlsx');
 
-function readFile (path) {
+function readFile (path, options) {
   const workbook = XLSX.readFile(path);
   const sheets = parseWorkbook(workbook);
   const columnHeaders = parseWorkbookColumnHeaders(workbook);
-  var result = parse(sheets, columnHeaders);
+  var result = parse(sheets, columnHeaders, options);
   return result;
 }
 
@@ -49,10 +49,10 @@ function parseWorkSheet (workSheet) {
   }).filter(([rowKey]) => rowKey !== '#'));
 }
 
-function build (matrices) {
+function build (matrices, options) {
   const columnHeaders = buildColumnHeaders(matrices);
   const sheets = buildSheets(matrices, columnHeaders);
-  return parse(sheets, columnHeaders);
+  return parse(sheets, columnHeaders, options);
 }
 
 function buildColumnHeaders (matrices) {
@@ -92,29 +92,29 @@ function buildRow (cellArray, columnHeaders) {
   }));
 }
 
-function parse (sheets, columnHeaders) {
+function parse (sheets, columnHeaders, options) {
   const sheetKeys = Object.keys(sheets);
   return R.fromPairs(sheetKeys.map(sheetKey => {
-    const sheetValue = makeSheet(sheets[sheetKey], columnHeaders[sheetKey]);
+    const sheetValue = makeSheet(sheets[sheetKey], columnHeaders[sheetKey], options);
     return [sheetKey, sheetValue];
   }));
 }
 
-function makeSheet (sheet, columnHeaders) {
+function makeSheet (sheet, columnHeaders, options) {
   const rowKeys = Object.keys(sheet);
   return R.fromPairs(rowKeys.map(rowKey => {
-    const rowValue = makeRow(sheet, rowKey, columnHeaders);
+    const rowValue = makeRow(sheet, rowKey, columnHeaders, options);
     return [rowKey, rowValue];
   }));
 }
 
-function makeRow (sheet, rowId, columnHeaders) {
+function makeRow (sheet, rowId, columnHeaders, options) {
   const inputRow = sheet[rowId];
   return R.fromPairs(columnHeaders.map(columnHeader => {
     const value = inputRow[columnHeader];
     const metadata = parseMetadata(columnHeader, value);
     const cellKey = metadata.name;
-    const cellValue = new Cell(metadata);
+    const cellValue = new Cell(metadata, options);
     return [cellKey, cellValue];
   }));
 }
@@ -131,9 +131,12 @@ function parseMetadata (colHeader, cellValue) {
 }
 
 class Cell {
-  constructor (metadata) {
-    this.metadata = metadata;
-    const value = convertValue(metadata);
+  constructor (metadata, options) {
+    const excludeMetadata = (options || {}).excludeMetadata;
+    if (!excludeMetadata) {
+      this.metadata = metadata;
+    }
+    const value = this.metadata ? convertValue(this.metadata) : metadata.value;
     this[metadata.propName] = value;
   }
 

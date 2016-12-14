@@ -13,25 +13,30 @@ describe('sheet-reader', function () {
     this.sinon = sinon.sandbox.create();
     this.sinon.useFakeTimers(Date.UTC(2015, 9, 14));
     sugar.Date.newDateInternal = function () { return new Date(); }; // Note: make sugar-date use the faked timer from sinon
+    this.objectInput = {
+      customer: [
+        ['id', 'name', 'owner:customer:ref', 'address', 'created:date'],
+        ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23T17:43:00Z'],
+        ['coop', 'COOP', '', 'Albertslund', '2 days ago'],
+        ['fakta', 'Fakta', 'coop', '', '']
+      ],
+      product: [
+        ['id', 'name', 'type'],
+        ['apple', 'Apple', 'fruit']
+      ],
+      orderItem: [
+        ['customer:ref', 'product:ref', 'quantity:num', 'price:num'],
+        ['irma', 'apple', '200', 'expect:12.75'],
+        ['coop', 'apple', '100']
+      ]
+    };
     this.data = {
       file: sheetReader.readFile('test/data/sheet-reader.ods'),
-      object: sheetReader.build({
-        customer: [
-          ['id', 'name', 'owner:customer:ref', 'address', 'created:date'],
-          ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23T17:43:00Z'],
-          ['coop', 'COOP', '', 'Albertslund', '2 days ago'],
-          ['fakta', 'Fakta', 'coop', '', '']
-        ],
-        product: [
-          ['id', 'name', 'type'],
-          ['apple', 'Apple', 'fruit']
-        ],
-        orderItem: [
-          ['customer:ref', 'product:ref', 'quantity:num', 'price:num'],
-          ['irma', 'apple', '200', 'expect:12.75'],
-          ['coop', 'apple', '100']
-        ]
-      })
+      object: sheetReader.build(this.objectInput)
+    };
+    this.dataWithoutMetadata = {
+      file: sheetReader.readFile('test/data/sheet-reader.ods', {excludeMetadata: true}),
+      object: sheetReader.build(this.objectInput, {excludeMetadata: true})
     };
   });
 
@@ -105,6 +110,14 @@ describe('sheet-reader', function () {
 
       it('should not store data by raw column name', function () {
         should.not.exist(this.data[source].customer['irma']['owner:customer:ref']);
+      });
+
+      it('should exclude metadata, useful for diffing', function () {
+        this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
+          customer: { value: 'irma' },
+          product: { value: 'apple' },
+          quantity: { value: '200' },
+          price: { expect: '12.75' }});
       });
     });
   });
