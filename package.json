@@ -1,6 +1,6 @@
 {
   "name": "sheet-reader",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Easily use a spreadsheet as an input format for your app",
   "scripts": {
     "lint": "semistandard --verbose",
@@ -36,6 +36,7 @@
     "sinon-chai": "^2.8.0"
   },
   "files": [
+    "script/diff.js",
     "sheet-reader.js"
   ],
   "readme": "README.md",
