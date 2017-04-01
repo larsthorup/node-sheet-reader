@@ -22,6 +22,13 @@ should support date values.
 this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23, 17, 43));
 ```
 
+should support date with timezone values.
+
+```js
+this.data[source].customer['netto'].timezone.value.should.equal('Europe/Copenhagen');
+this.data[source].customer['netto'].created.value.should.equal(Date.UTC(2015, 8, 14, 7, 0)); // Note: two hours before, because of timezone and DST
+```
+
 should support relative date values.
 
 ```js
@@ -60,7 +67,7 @@ Object.keys(this.data[source].product).should.deep.equal(['apple']);
 should ignore comment rows.
 
 ```js
-Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma']);
+Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma', 'netto']);
 ```
 
 should support references to other sheets.
@@ -119,6 +126,13 @@ should support date values.
 this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23, 17, 43));
 ```
 
+should support date with timezone values.
+
+```js
+this.data[source].customer['netto'].timezone.value.should.equal('Europe/Copenhagen');
+this.data[source].customer['netto'].created.value.should.equal(Date.UTC(2015, 8, 14, 7, 0)); // Note: two hours before, because of timezone and DST
+```
+
 should support relative date values.
 
 ```js
@@ -157,7 +171,7 @@ Object.keys(this.data[source].product).should.deep.equal(['apple']);
 should ignore comment rows.
 
 ```js
-Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma']);
+Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma', 'netto']);
 ```
 
 should support references to other sheets.

@@ -15,10 +15,11 @@ describe('sheet-reader', function () {
     sugar.Date.newDateInternal = function () { return new Date(); }; // Note: make sugar-date use the faked timer from sinon
     this.objectInput = {
       customer: [
-        ['id', 'name', 'owner:customer:ref', 'address', 'created:date'],
-        ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23T17:43:00Z'],
-        ['coop', 'COOP', '', 'Albertslund', '2 days ago'],
-        ['fakta', 'Fakta', 'coop', '', '']
+        ['id', 'name', 'owner:customer:ref', 'address', 'created:date', 'timezone:created:tz'],
+        ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23T17:43:00Z', ''],
+        ['coop', 'COOP', '', 'Albertslund', '2 days ago', ''],
+        ['fakta', 'Fakta', 'coop', '', '', ''],
+        ['netto', 'Netto', '', '', '2015-09-14 09:00:00', 'Europe/Copenhagen']
       ],
       product: [
         ['id', 'name', 'type'],
@@ -61,6 +62,11 @@ describe('sheet-reader', function () {
         this.data[source].customer['irma'].created.value.should.equal(Date.UTC(1886, 7, 23, 17, 43));
       });
 
+      it('should support date with timezone values', function () {
+        this.data[source].customer['netto'].timezone.value.should.equal('Europe/Copenhagen');
+        this.data[source].customer['netto'].created.value.should.equal(Date.UTC(2015, 8, 14, 7, 0)); // Note: two hours before, because of timezone and DST
+      });
+
       it('should support relative date values', function () {
         const coopCreated = new Date(this.data[source].customer['coop'].created.value);
         coopCreated.getUTCFullYear().should.equal(2015);
@@ -87,7 +93,7 @@ describe('sheet-reader', function () {
       });
 
       it('should ignore comment rows', function () {
-        Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma']);
+        Object.keys(this.data[source].customer).sort().should.deep.equal(['coop', 'fakta', 'irma', 'netto']);
       });
 
       it('should support references to other sheets', function () {

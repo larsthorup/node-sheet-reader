@@ -2,6 +2,7 @@
 
 const R = require('ramda');
 const sugar = require('sugar-date');
+const tz = require('timezone');
 const XLSX = require('xlsx');
 
 function readFile (path, options) {
@@ -111,15 +112,15 @@ function makeSheet (sheet, columnHeaders, options) {
 function makeRow (sheet, rowId, columnHeaders, options) {
   const inputRow = sheet[rowId];
   return R.fromPairs(columnHeaders.map(columnHeader => {
-    const value = inputRow[columnHeader];
-    const metadata = parseMetadata(columnHeader, value);
+    const metadata = parseMetadata(columnHeader, inputRow);
     const cellKey = metadata.name;
     const cellValue = new Cell(metadata, options);
     return [cellKey, cellValue];
   }));
 }
 
-function parseMetadata (colHeader, cellValue) {
+function parseMetadata (colHeader, inputRow) {
+  const cellValue = inputRow[colHeader];
   const colHeaderParts = colHeader.split(':');
   const valueParts = cellValue !== undefined ? (cellValue.startsWith('expect:') ? ['expect', cellValue.split(':')[1]] : [cellValue]) : [];
   const name = colHeaderParts.length > 1 ? colHeaderParts[0] : colHeader;
@@ -127,7 +128,9 @@ function parseMetadata (colHeader, cellValue) {
   const propName = valueParts.length > 1 ? valueParts[0] : 'value';
   const value = valueParts.length > 1 ? valueParts[1] : cellValue;
   const sheetNameRef = type === 'ref' ? (colHeaderParts.length > 2 ? colHeaderParts[1] : name) : undefined;
-  return {name, type, propName, value, sheetNameRef};
+  const tzKey = Object.keys(inputRow).find(key => key.endsWith(`:${name}:tz`));
+  const tz = tzKey ? inputRow[tzKey] : null;
+  return {name, type, propName, value, sheetNameRef, tz};
 }
 
 class Cell {
@@ -151,11 +154,17 @@ function convertValue (metadata) {
   } else {
     switch (metadata.type) {
       case 'string':
+      case 'tz':
         return metadata.value;
       case 'num':
         return Number(metadata.value);
       case 'date':
-        return sugar.Date.create(metadata.value, {fromUTC: true, setUTC: true}).getTime();
+        if (metadata.tz) {
+          const local = tz(require(`timezone/${metadata.tz}`));
+          return local(metadata.value, metadata.tz);
+        } else {
+          return sugar.Date.create(metadata.value, {fromUTC: true, setUTC: true}).getTime();
+        }
       case 'ref':
         const rowId = metadata.value;
         return rowId;

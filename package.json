@@ -1,6 +1,6 @@
 {
   "name": "sheet-reader",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Easily use a spreadsheet as an input format for your app",
   "scripts": {
     "lint": "semistandard --verbose",
@@ -22,6 +22,7 @@
   "dependencies": {
     "ramda": "^0.22.1",
     "sugar-date": "^2.0.0",
+    "timezone": "^1.0.6",
     "xlsx": "^0.8.0"
   },
   "license": "MIT",
