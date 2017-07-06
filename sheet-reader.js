@@ -27,7 +27,7 @@ function parseWorkbook (workbook) {
     const workbookSheetRangeString = workbookSheet['!ref'];
     const workbookSheetRange = parseRange(workbookSheetRangeString);
     const workSheet = XLSX.utils.sheet_to_json(workbookSheet);
-    const tolerance = 10;
+    const tolerance = 1000;
     if (workbookSheetRange.end.row > workSheet.length + tolerance) throw new Error(`Sheet "${sheetKey}" has a much larger range "${workbookSheetRangeString}" than the row count of "${workSheet.length}"`);
     const sheetValue = parseWorkSheet(workSheet);
     return [sheetKey, sheetValue];
