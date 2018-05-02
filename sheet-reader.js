@@ -133,6 +133,10 @@ function parseMetadata (colHeader, inputRow) {
   return {name, type, propName, value, sheetNameRef, tz};
 }
 
+function trimValue (value) {
+  return typeof value === 'string' ? value.trim() : value;
+}
+
 class Cell {
   constructor (metadata, options) {
     const excludeMetadata = (options || {}).excludeMetadata;
@@ -140,7 +144,7 @@ class Cell {
       this.metadata = metadata;
     }
     const value = this.metadata ? convertValue(this.metadata) : metadata.value;
-    this[metadata.propName] = value;
+    this[metadata.propName] = options && options.trim ? trimValue(value) : value;
   }
 
   reference (data) {
