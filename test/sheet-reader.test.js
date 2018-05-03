@@ -16,10 +16,10 @@ describe('sheet-reader', function () {
     this.objectInput = {
       customer: [
         ['id', 'name', 'owner:customer:ref', 'address', 'created:date', 'timezone:created:tz'],
-        ['irma', 'Irma', 'coop', 'Glostrup', '1886-08-23T17:43:00Z', ''],
+        ['irma', 'Irma ', 'coop', 'Glostrup', '1886-08-23T17:43:00Z', ''],
         ['coop', 'COOP', '', 'Albertslund', '2 days ago', ''],
         ['fakta', 'Fakta', 'coop', '', '', ''],
-        ['netto', 'Netto', '', '', '2015-09-14 09:00:00', 'Europe/Copenhagen']
+        ['netto', 'Døgn Netto', '', '', '2015-09-14 09:00:00', 'Europe/Copenhagen']
       ],
       product: [
         ['id', 'name', 'type'],
@@ -38,6 +38,10 @@ describe('sheet-reader', function () {
     this.dataWithoutMetadata = {
       file: sheetReader.readFile('test/data/sheet-reader.ods', {excludeMetadata: true}),
       object: sheetReader.build(this.objectInput, {excludeMetadata: true})
+    };
+    this.trimmedData = {
+      file: sheetReader.readFile('test/data/sheet-reader.ods', {trim: true}),
+      object: sheetReader.build(this.objectInput, {trim: true})
     };
   });
 
@@ -124,6 +128,15 @@ describe('sheet-reader', function () {
           product: { value: 'apple' },
           quantity: { value: '200' },
           price: { expect: '12.75' }});
+      });
+
+      it('should not trim white space', function () {
+        this.data[source].customer['irma']['name'].value.should.equal('Irma ');
+      });
+
+      it('should trim white space, but not remove spaces', function () {
+        this.trimmedData[source].customer['irma']['name'].value.should.equal('Irma');
+        this.trimmedData[source].customer['netto']['name'].value.should.equal('Døgn Netto');
       });
     });
   });
