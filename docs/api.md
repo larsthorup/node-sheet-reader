@@ -112,6 +112,19 @@ this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
   price: { expect: '12.75' }});
 ```
 
+should not trim white space.
+
+```js
+this.data[source].customer['irma']['name'].value.should.equal('Irma ');
+```
+
+should trim white space, but not remove spaces.
+
+```js
+this.trimmedData[source].customer['irma']['name'].value.should.equal('Irma');
+this.trimmedData[source].customer['netto']['name'].value.should.equal('Døgn Netto');
+```
+
 <a name="sheet-reader-when-created-from-object"></a>
 ## when created from object
 should support string values.
@@ -214,6 +227,19 @@ this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
   product: { value: 'apple' },
   quantity: { value: '200' },
   price: { expect: '12.75' }});
+```
+
+should not trim white space.
+
+```js
+this.data[source].customer['irma']['name'].value.should.equal('Irma ');
+```
+
+should trim white space, but not remove spaces.
+
+```js
+this.trimmedData[source].customer['irma']['name'].value.should.equal('Irma');
+this.trimmedData[source].customer['netto']['name'].value.should.equal('Døgn Netto');
 ```
 
 <a name="sheet-reader-error-handling"></a>

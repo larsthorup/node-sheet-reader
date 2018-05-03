@@ -1,6 +1,6 @@
 {
   "name": "sheet-reader",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Easily use a spreadsheet as an input format for your app",
   "scripts": {
     "lint": "semistandard --verbose",
@@ -38,6 +38,7 @@
   },
   "files": [
     "script/diff.js",
+    "script/dump.js",
     "sheet-reader.js"
   ],
   "readme": "README.md",
