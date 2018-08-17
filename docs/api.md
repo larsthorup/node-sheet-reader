@@ -4,6 +4,7 @@
      - [when created from object](#sheet-reader-when-created-from-object)
      - [error handling](#sheet-reader-error-handling)
        - [outrageous range in sheet](#sheet-reader-error-handling-outrageous-range-in-sheet)
+     - [files with header only](#sheet-reader-files-with-header-only)
 <a name=""></a>
  
 <a name="sheet-reader"></a>
@@ -251,5 +252,14 @@ should throw an error.
 ```js
 this.timeout(30000); // Note: the xlsx module takes a long time to parse this small file
 (() => sheetReader.readFile('test/data/bad.xlsx')).should.throw('Sheet "content" has a much larger range "A1:L1048576" than the row count of "2"');
+```
+
+<a name="sheet-reader-files-with-header-only"></a>
+## files with header only
+should do just fine.
+
+```js
+const file = sheetReader.readFile('test/data/worse.xlsx', {trim: true});
+file.should.deep.equal({content: {}});
 ```
 

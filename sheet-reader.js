@@ -14,9 +14,10 @@ function readFile (path, options) {
 }
 
 function parseRange (range) {
+  const split = range.split(':'); // Note: range can be just A1
   return {
     end: {
-      row: parseInt(/\D+(\d+)/.exec(range.split(':')[1])[1])
+      row: split.length > 1 ? parseInt(/\D+(\d+)/.exec(split[1])[1]) : 1
     }
   };
 }
