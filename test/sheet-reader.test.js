@@ -149,4 +149,11 @@ describe('sheet-reader', function () {
       });
     });
   });
+
+  describe('files with header only', function () {
+    it('should do just fine', function () {
+      const file = sheetReader.readFile('test/data/worse.xlsx', {trim: true});
+      file.should.deep.equal({content: {}});
+    });
+  });
 });
