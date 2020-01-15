@@ -1,5 +1,6 @@
 # node-sheet-reader
 
+[![npm version](https://badge.fury.io/js/sheet-reader.svg)](https://www.npmjs.com/package/sheet-reader)
 [![Build Status](https://travis-ci.org/larsthorup/node-sheet-reader.png)](https://travis-ci.org/larsthorup/node-sheet-reader)
 [![Coverage Status](https://coveralls.io/repos/larsthorup/node-sheet-reader/badge.svg?branch=master&service=github)](https://coveralls.io/github/larsthorup/node-sheet-reader?branch=master)
 [![Dependency Status](https://david-dm.org/larsthorup/node-sheet-reader.png)](https://david-dm.org/larsthorup/node-sheet-reader#info=dependencies)
