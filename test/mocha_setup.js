@@ -1,8 +1,8 @@
 'use strict';
 
-let chai = require('chai');
-let sinonChai = require('sinon-chai');
-let chaiAsPromised = require('chai-as-promised');
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
+const chaiAsPromised = require('chai-as-promised');
 
 // Chai setup
 chai.should();

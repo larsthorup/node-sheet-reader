@@ -122,9 +122,10 @@ function makeRow (sheet, rowId, columnHeaders, options) {
 }
 
 function parseMetadata (colHeader, inputRow) {
-  const cellValue = inputRow[colHeader];
+  const cellValueRaw = inputRow[colHeader];
   const colHeaderParts = colHeader.split(':');
-  const valueParts = cellValue !== undefined ? (cellValue.startsWith('expect:') ? ['expect', cellValue.split(':')[1]] : [cellValue]) : [];
+  const cellValue = typeof cellValueRaw === 'string' || R.isNil(cellValueRaw) ? cellValueRaw : cellValueRaw.toString();
+  const valueParts = !R.isNil(cellValue) ? (cellValue.startsWith('expect:') ? ['expect', cellValue.split(':')[1]] : [cellValue]) : [];
   const name = colHeaderParts.length > 1 ? colHeaderParts[0] : colHeader;
   const type = colHeaderParts.length > 1 ? colHeaderParts[colHeaderParts.length - 1] : 'string';
   const propName = valueParts.length > 1 ? valueParts[0] : 'value';
@@ -132,7 +133,7 @@ function parseMetadata (colHeader, inputRow) {
   const sheetNameRef = type === 'ref' ? (colHeaderParts.length > 2 ? colHeaderParts[1] : name) : undefined;
   const tzKey = Object.keys(inputRow).find(key => key.endsWith(`:${name}:tz`));
   const tz = tzKey ? inputRow[tzKey] : null;
-  return {name, type, propName, value, sheetNameRef, tz};
+  return { name, type, propName, value, sheetNameRef, tz };
 }
 
 function trimValue (value) {
@@ -146,7 +147,7 @@ class Cell {
       this.metadata = metadata;
     }
     const value = this.metadata ? convertValue(this.metadata) : metadata.value;
-    this[metadata.propName] = options && options.trim ? trimValue(value) : value;
+    this[metadata.propName] = trimValue(value);
   }
 
   reference (data) {
@@ -169,11 +170,10 @@ function convertValue (metadata) {
           const local = tz(require(`timezone/${metadata.tz}`));
           return local(metadata.value, metadata.tz);
         } else {
-          return sugar.Date.create(metadata.value, {fromUTC: true, setUTC: true}).getTime();
+          return sugar.Date.create(metadata.value, { fromUTC: true, setUTC: true }).getTime();
         }
       case 'ref':
-        const rowId = metadata.value;
-        return rowId;
+        return metadata.value;
       default:
         throw new Error(`unknown type ${metadata.type}`);
     }

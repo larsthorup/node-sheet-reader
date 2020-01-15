@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/* eslint-disable dot-notation */
 
 'use strict';
 
@@ -10,7 +11,7 @@ const sheetReader = require('../sheet-reader');
 
 describe('sheet-reader', function () {
   before(function () {
-    this.sinon = sinon.sandbox.create();
+    this.sinon = sinon.createSandbox();
     this.sinon.useFakeTimers(Date.UTC(2015, 9, 14));
     sugar.Date.newDateInternal = function () { return new Date(); }; // Note: make sugar-date use the faked timer from sinon
     this.objectInput = {
@@ -36,12 +37,8 @@ describe('sheet-reader', function () {
       object: sheetReader.build(this.objectInput)
     };
     this.dataWithoutMetadata = {
-      file: sheetReader.readFile('test/data/sheet-reader.ods', {excludeMetadata: true}),
-      object: sheetReader.build(this.objectInput, {excludeMetadata: true})
-    };
-    this.trimmedData = {
-      file: sheetReader.readFile('test/data/sheet-reader.ods', {trim: true}),
-      object: sheetReader.build(this.objectInput, {trim: true})
+      file: sheetReader.readFile('test/data/sheet-reader.ods', { excludeMetadata: true }),
+      object: sheetReader.build(this.objectInput, { excludeMetadata: true })
     };
   });
 
@@ -127,16 +124,13 @@ describe('sheet-reader', function () {
           customer: { value: 'irma' },
           product: { value: 'apple' },
           quantity: { value: '200' },
-          price: { expect: '12.75' }});
-      });
-
-      it('should not trim white space', function () {
-        this.data[source].customer['irma']['name'].value.should.equal('Irma ');
+          price: { expect: '12.75' }
+        });
       });
 
       it('should trim white space, but not remove spaces', function () {
-        this.trimmedData[source].customer['irma']['name'].value.should.equal('Irma');
-        this.trimmedData[source].customer['netto']['name'].value.should.equal('Døgn Netto');
+        this.data[source].customer['irma']['name'].value.should.equal('Irma');
+        this.data[source].customer['netto']['name'].value.should.equal('Døgn Netto');
       });
     });
   });
@@ -152,8 +146,8 @@ describe('sheet-reader', function () {
 
   describe('files with header only', function () {
     it('should do just fine', function () {
-      const file = sheetReader.readFile('test/data/worse.xlsx', {trim: true});
-      file.should.deep.equal({content: {}});
+      const file = sheetReader.readFile('test/data/worse.xlsx');
+      file.should.deep.equal({ content: {} });
     });
   });
 });

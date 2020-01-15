@@ -11,8 +11,8 @@ if (externalDiffCommandTemplate.startsWith('"') && externalDiffCommandTemplate.e
   externalDiffCommandTemplate = externalDiffCommandTemplate.substr(1, externalDiffCommandTemplate.length - 2);
 }
 
-const oldData = sheetReader.readFile(oldPath, {excludeMetadata: true});
-const newData = sheetReader.readFile(newPath, {excludeMetadata: true});
+const oldData = sheetReader.readFile(oldPath, { excludeMetadata: true });
+const newData = sheetReader.readFile(newPath, { excludeMetadata: true });
 
 const oldJsonPath = path.join(path.dirname(oldPath), path.basename(oldPath, path.extname(oldPath)) + '.json');
 const newJsonPath = path.join(path.dirname(newPath), path.basename(newPath, path.extname(newPath)) + '.json');

@@ -5,7 +5,7 @@ const sheetReader = require('..');
 
 const oldPath = process.argv[2];
 
-const oldData = sheetReader.readFile(oldPath, {excludeMetadata: true});
+const oldData = sheetReader.readFile(oldPath, { excludeMetadata: true });
 
 const oldJsonPath = path.join(path.dirname(oldPath), path.basename(oldPath, path.extname(oldPath)) + '.json');
 

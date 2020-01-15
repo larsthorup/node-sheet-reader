@@ -6,7 +6,7 @@ module.exports = function () {
       '*.js',
       'test/**/*.js',
       'test/data/**/*.ods',
-      {pattern: 'test/**/*.test.js', ignore: true}
+      { pattern: 'test/**/*.test.js', ignore: true }
     ],
     tests: [
       'test/**/*.test.js'

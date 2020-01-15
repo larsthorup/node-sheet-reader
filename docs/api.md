@@ -110,20 +110,15 @@ this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
   customer: { value: 'irma' },
   product: { value: 'apple' },
   quantity: { value: '200' },
-  price: { expect: '12.75' }});
-```
-
-should not trim white space.
-
-```js
-this.data[source].customer['irma']['name'].value.should.equal('Irma ');
+  price: { expect: '12.75' }
+});
 ```
 
 should trim white space, but not remove spaces.
 
 ```js
-this.trimmedData[source].customer['irma']['name'].value.should.equal('Irma');
-this.trimmedData[source].customer['netto']['name'].value.should.equal('Døgn Netto');
+this.data[source].customer['irma']['name'].value.should.equal('Irma');
+this.data[source].customer['netto']['name'].value.should.equal('Døgn Netto');
 ```
 
 <a name="sheet-reader-when-created-from-object"></a>
@@ -227,20 +222,15 @@ this.dataWithoutMetadata[source].orderItem[0].should.deep.equal({
   customer: { value: 'irma' },
   product: { value: 'apple' },
   quantity: { value: '200' },
-  price: { expect: '12.75' }});
-```
-
-should not trim white space.
-
-```js
-this.data[source].customer['irma']['name'].value.should.equal('Irma ');
+  price: { expect: '12.75' }
+});
 ```
 
 should trim white space, but not remove spaces.
 
 ```js
-this.trimmedData[source].customer['irma']['name'].value.should.equal('Irma');
-this.trimmedData[source].customer['netto']['name'].value.should.equal('Døgn Netto');
+this.data[source].customer['irma']['name'].value.should.equal('Irma');
+this.data[source].customer['netto']['name'].value.should.equal('Døgn Netto');
 ```
 
 <a name="sheet-reader-error-handling"></a>
@@ -259,7 +249,7 @@ this.timeout(30000); // Note: the xlsx module takes a long time to parse this sm
 should do just fine.
 
 ```js
-const file = sheetReader.readFile('test/data/worse.xlsx', {trim: true});
-file.should.deep.equal({content: {}});
+const file = sheetReader.readFile('test/data/worse.xlsx');
+file.should.deep.equal({ content: {} });
 ```
 

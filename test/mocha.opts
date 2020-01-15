@@ -1,3 +1,0 @@
---reporter dot
---require test/mocha_setup
---recursive test
