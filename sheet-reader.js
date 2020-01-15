@@ -26,6 +26,7 @@ function parseWorkbook (workbook) {
   return R.fromPairs(workbook.SheetNames.map(sheetKey => {
     const workbookSheet = workbook.Sheets[sheetKey];
     const workbookSheetRangeString = workbookSheet['!ref'];
+    if (!workbookSheetRangeString) throw new Error(`Sheet "${sheetKey}" appears to be empty`);
     const workbookSheetRange = parseRange(workbookSheetRangeString);
     const workSheet = XLSX.utils.sheet_to_json(workbookSheet);
     const tolerance = 1000;
