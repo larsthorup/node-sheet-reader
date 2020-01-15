@@ -4,7 +4,7 @@
   "description": "Easily use a spreadsheet as an input format for your app",
   "scripts": {
     "lint": "semistandard --verbose",
-    "mocha": "istanbul --config=test/istanbul.conf.js cover node_modules/mocha/bin/_mocha",
+    "mocha": "nyc --nycrc-path=test/nyc.conf.js node_modules/mocha/bin/_mocha",
     "doc": "mocha --reporter markdown > docs/api.md",
     "test": "npm run lint && npm run mocha && npm run doc",
     "coveralls": "coveralls < output/coverage/lcov.info",
@@ -30,7 +30,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.9",
-    "istanbul": "^0.4.3",
+    "nyc": "^15.0.0",
     "mocha": "^7.0.0",
     "semistandard": "^14.2.0",
     "sinon": "^8.0.4",
