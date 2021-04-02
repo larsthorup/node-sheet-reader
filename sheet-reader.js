@@ -9,7 +9,7 @@ function readFile (path, options) {
   const workbook = XLSX.readFile(path);
   const sheets = parseWorkbook(workbook);
   const columnHeaders = parseWorkbookColumnHeaders(workbook);
-  var result = parse(sheets, columnHeaders, options);
+  const result = parse(sheets, columnHeaders, options);
   return result;
 }
 
