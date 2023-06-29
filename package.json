@@ -6,9 +6,7 @@
     "lint": "semistandard --verbose",
     "mocha": "nyc --nycrc-path=test/nyc.conf.js node_modules/mocha/bin/_mocha",
     "doc": "mocha --reporter markdown > docs/api.md",
-    "test": "npm run lint && npm run mocha && npm run doc",
-    "coveralls": "coveralls < output/coverage/lcov.info",
-    "travis": "npm test && npm run coveralls"
+    "test": "npm run lint && npm run mocha && npm run doc"
   },
   "repository": {
     "type": "git",
@@ -29,7 +27,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "coveralls": "^3.0.9",
     "mocha": "^9.1.1",
     "nyc": "^15.0.0",
     "semistandard": "^16.0.0",
